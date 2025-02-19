@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import '../routes/app_routes.dart';
 import '../services/home_repo.dart';
 import '../services/shared_pref.dart';
 
@@ -39,7 +40,6 @@ class DesignationController extends GetxController {
     exp.text = item.experience.toString();
     skills.text = item.skills.toString();
     id = item.id.toString();
-    mode.text = item.mode.toString();
     Get.to(AddTeam());
   }
 
@@ -49,7 +49,6 @@ class DesignationController extends GetxController {
     exp.clear();
     skills.clear();
     id = "";
-    mode.clear();
     update();
   }
 
@@ -83,46 +82,77 @@ class DesignationController extends GetxController {
   void submit() async {
     Loaders.showLoading('Loading...');
 
-    // HomeRepo()
-    //     .createTeam(name.text, des.text, role.text, experience.text,
-    //         linkedin.text, skills.text)
-    //     .then((value) {
-    //   print(value);
-    //   Loaders.hideLoading();
-    //   switch (value!.statusCode) {
-    //     case 200:
-    //       final decodedData = jsonDecode(value.body);
+    HomeRepo()
+        .addDesignation(
+            title.text, exp.text, des.text, location.text, skills.text)
+        .then((value) {
+      print(value);
+      Loaders.hideLoading();
+      switch (value!.statusCode) {
+        case 200:
+          clearDesignation();
+          Get.offNamedUntil(
+            Routes.designation,
+            (route) => false,
+          );
+          Loaders.successSnackBar(
+              message: "Success", title: "Designation Updated");
+          update();
+          break;
+        case 401:
+          Get.offAndToNamed("/login");
+          Loaders.errorSnackBar(
+              message: "Error", title: "Something went wrong");
+          break;
 
-    //       clearTeam();
-    //       Get.to(Team());
-    //       Loaders.successSnackBar(message: "Success", title: "Team Updated");
-    //       update();
-    //       break;
-    //     case 401:
-    //       Get.offAndToNamed("/login");
-    //       Loaders.errorSnackBar(
-    //           message: "Error", title: "Something went wrong");
-    //       break;
-
-    //     default:
-    //       Loaders.errorSnackBar(
-    //           message: "Error", title: "Something went wrong");
-    //       break;
-    //   }
-    // });
+        default:
+          Loaders.errorSnackBar(
+              message: "Error", title: "Something went wrong");
+          break;
+      }
+    });
   }
 
-  searchTeam(String query) async {
-  //   if (query.isNotEmpty) {
-  //     teamDataList = teamList.first.data!
-  //         .where((elem) => elem.name!.toLowerCase().contains(query))
-  //         .toList();
+  searc(String query) async {
+    if (query.isNotEmpty) {
+      designationDataList = designationList.first.data!
+          .where((elem) => elem.jobTitle!.toLowerCase().contains(query))
+          .toList();
 
-  //     update();
-  //   } else {
-  //     teamDataList = teamList.first.data!;
-  //   }
-  //   update();
-  // }
+      update();
+    } else {
+      designationDataList = designationList.first.data!;
+    }
+    update();
+  }
+
+  void deleteDesignation(id) async {
+    Get.back();
+    Loaders.showLoading('Loading...');
+
+    HomeRepo().deleteDesignation(id).then((value) {
+      print(value);
+      Loaders.hideLoading();
+      switch (value!.statusCode) {
+        case 200:
+          isLoaded = true;
+          final decodedData = jsonDecode(value.body);
+          Loaders.successSnackBar(
+              message: "Success", title: "Designation removed");
+          getAllDesignation();
+          update();
+          break;
+        case 401:
+          Get.offAndToNamed("/login");
+          Loaders.errorSnackBar(
+              message: "Error", title: "Something went wrong");
+          break;
+
+        default:
+          Loaders.errorSnackBar(
+              message: "Error", title: "Something went wrong");
+          break;
+      }
+    });
   }
 }

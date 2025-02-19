@@ -102,25 +102,22 @@ class TeamController extends GetxController {
     }
   }
 
-
   void submit() async {
     Loaders.showLoading('Loading...');
-   
+
     HomeRepo()
-       .createTeam(name.text, des.text, role.text, experience.text, linkedin.text, skills.text, images1)
+        .createTeam(name.text, des.text, role.text, experience.text,
+            linkedin.text, skills.text, images1)
         .then((value) {
       print(value.statusCode);
       Loaders.hideLoading();
       switch (value.statusCode) {
         case 200:
-         
-       
-      
           clearTeam();
-           Get.offNamedUntil(
-                Routes.team,
-                (route) => route.isFirst,
-              );
+          Get.offNamedUntil(
+            Routes.team,
+            (route) => route.isFirst,
+          );
           Loaders.successSnackBar(message: "Success", title: "Team Updated");
           update();
           break;
@@ -150,7 +147,8 @@ class TeamController extends GetxController {
     }
     update();
   }
-void deleteTeam(teamId) async {
+
+  void deleteTeam(teamId) async {
     Get.back();
     Loaders.showLoading('Loading...');
 
@@ -177,4 +175,5 @@ void deleteTeam(teamId) async {
           break;
       }
     });
-  }}
+  }
+}

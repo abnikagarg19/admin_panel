@@ -4,6 +4,7 @@ import 'package:archlelabsadmin/bindings.dart/home_bindings.dart';
 import 'package:archlelabsadmin/bindings.dart/intial_bindings.dart';
 import 'package:archlelabsadmin/screens/blogs.dart/add_blogs.dart';
 import 'package:archlelabsadmin/screens/blogs.dart/blogs.dart';
+import 'package:archlelabsadmin/screens/dashboard/add_designation.dart';
 import 'package:archlelabsadmin/screens/dashboard/designation.dart';
 import 'package:archlelabsadmin/screens/team/add_team.dart';
 import 'package:archlelabsadmin/screens/team/teams.dart';
@@ -37,15 +38,24 @@ appRoutes() => [
       GetPage(name: Routes.blog, page: () => Blog(), binding: BlogBindings()),
       GetPage(
           name: Routes.addblog, page: () => AddBlog(), binding: BlogBindings()),
-          GetPage(name: Routes.designation, page: () => DesignationPage(), binding: DesignationBindings()),
       GetPage(
-          name: Routes.addDesignation, page: () => AddBlog(), binding: BlogBindings()),
+          name: Routes.designation,
+          page: () => DesignationPage(),
+          binding: DesignationBindings()),
+      GetPage(
+          name: Routes.addDesignation,
+          page: () => AddDesignation(),
+          binding: DesignationBindings()),
       GetPage(name: Routes.team, page: () => Team(), binding: TeamBindings()),
       GetPage(
           name: Routes.addTeam, page: () => AddTeam(), binding: TeamBindings()),
-
-             GetPage(name: Routes.designation, page: () => Team(), binding: TeamBindings()),
       GetPage(
-          name: Routes.addDesignation, page: () => AddTeam(), binding: TeamBindings()),
+          name: Routes.designation,
+          page: () => Team(),
+          binding: TeamBindings()),
+      GetPage(
+          name: Routes.addDesignation,
+          page: () => AddTeam(),
+          binding: TeamBindings()),
       GetPage(name: Routes.login, page: () => Login()),
     ];

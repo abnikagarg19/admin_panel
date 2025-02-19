@@ -14,6 +14,7 @@ class AppUrls {
 
   static const String getDesignation = "/api/v1/career/get_all_career/";
   static const String createDesignation = "/api/v1/career/create_career/";
+  static const String deleteDesignation = "/api/v1/career/delete_career/";
 
   static const String get_all_pressrelease =
       "/api/v1/pressrelease/get_all_pressrelease/";

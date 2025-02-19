@@ -22,16 +22,16 @@ class HomeRepo {
     var request = http.MultipartRequest('POST', uri);
 
     // Add multiple sub_title fields
-   // for (var subTitle in sub_title) {
-      request.fields['sub_title'] = sub_title[0];
-   // }
+    // for (var subTitle in sub_title) {
+    request.fields['sub_title'] = sub_title[0];
+    // }
 
     // Add image files
     for (int i = 0; i < imageBytesList.length; i++) {
       var multipartFile = http.MultipartFile.fromBytes(
         'images', // Field name on the server
         imageBytesList[i],
-      filename: "aa.png",
+        filename: "aa.png",
       );
       request.files.add(multipartFile);
     }
@@ -97,12 +97,30 @@ class HomeRepo {
     return await THttpHelper().get(AppUrls.getDesignation);
   }
 
+  Future<dynamic> addDesignation(title, exp, des, location, skills) async {
+    var map = Map<String, dynamic>();
+    var data = {
+      "job_title": title,
+      "mode": "Online",
+      "experience": "$exp",
+      "skills": "$skills",
+      "location": "$location",
+      "date": "2025-02-19T16:20:19.849Z",
+      "notes": "$des"
+    };
+    return await THttpHelper().post(AppUrls.createDesignation, data);
+  }
+
   Future<dynamic> deleteTeam(team_id) async {
     var map = Map<String, dynamic>();
 
     return await THttpHelper().delete(AppUrls.deleteTeam + "?team_id=$team_id");
   }
+Future<dynamic> deleteDesignation(id) async {
+    var map = Map<String, dynamic>();
 
+    return await THttpHelper().delete(AppUrls.deleteDesignation + "?career_id=$id");
+  }
   Future<dynamic> deleteBlog(blogId) async {
     var map = Map<String, dynamic>();
 

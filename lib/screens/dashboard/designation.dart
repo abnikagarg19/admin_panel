@@ -11,7 +11,6 @@ import 'package:get/get.dart';
 
 import '../../constants.dart';
 
-import '../../controllers/teamController.dart';
 import '../../routes/app_routes.dart';
 import '../../theme/app_theme.dart';
 import '../../utils/constants.dart';
@@ -71,7 +70,7 @@ class DesignationPage extends StatelessWidget {
                                 minWidth: 100),
                             child: TextFormField(
                               onChanged: (value) {
-                                _controller.searchTeam(value);
+                                _controller.searc(value);
                               },
                               decoration: InputDecoration(
                                 prefixIcon: Icon(
@@ -163,12 +162,10 @@ class DesignationPage extends StatelessWidget {
                                 size: ColumnSize.S,
                                 fixedWidth: 80),
                            
-                            DataColumn(
-                              label: Text('Name'),
+                            DataColumn2(
+                              label: Text('Job Title'),  size: ColumnSize.L,
                             ),
-                            DataColumn(
-                              label: Text('Role'),
-                            ),
+                         
                             DataColumn2(
                               label: Text('Experience'),
                               size: ColumnSize.L,
@@ -178,7 +175,7 @@ class DesignationPage extends StatelessWidget {
                               size: ColumnSize.L,
                             ),
                             DataColumn2(
-                              label: Text('Linked In'),
+                              label: Text('Mode'),
                               size: ColumnSize.L,
                             ),
                             DataColumn2(
@@ -225,7 +222,7 @@ class MyDataSource extends DataTableSource {
                 TDialogs.defaultDialog(
                   context: Get.context!,
                   onConfirm: () {
-                    Get.find<TeamController>().deleteTeam(row.id);
+                    Get.find<DesignationController>().deleteDesignation(row.id);
                   },
                 );
               },
@@ -240,7 +237,7 @@ class MyDataSource extends DataTableSource {
             ),
             GestureDetector(
               onTap: () {
-             //   Get.find<TeamController>().editTeam(row);
+               Get.find<DesignationController>().editDesignation(row);
               },
               child: Icon(
                 Icons.edit,
@@ -257,7 +254,7 @@ class MyDataSource extends DataTableSource {
             maxLines: 100,
           ),
         ),
-        DataCell(Text(row.experience ?? '')),
+      
         DataCell(SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Padding(
