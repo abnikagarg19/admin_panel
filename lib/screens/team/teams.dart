@@ -48,6 +48,7 @@ class Team extends StatelessWidget {
                         InkWell(
                           borderRadius: BorderRadius.circular(8),
                           onTap: () {
+                            _controller.clearTeam();
                             Get.toNamed(Routes.addTeam);
                           },
                           child: Container(

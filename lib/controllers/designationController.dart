@@ -12,6 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import '../routes/app_routes.dart';
+import '../screens/dashboard/add_designation.dart';
 import '../services/home_repo.dart';
 import '../services/shared_pref.dart';
 
@@ -39,8 +40,10 @@ class DesignationController extends GetxController {
     des.text = item.notes.toString();
     exp.text = item.experience.toString();
     skills.text = item.skills.toString();
+    location.text = item.location.toString();
+
     id = item.id.toString();
-    Get.to(AddTeam());
+    Get.to(AddDesignation());
   }
 
   clearDesignation() {
@@ -48,12 +51,14 @@ class DesignationController extends GetxController {
     des.clear();
     exp.clear();
     skills.clear();
+    location.clear();
     id = "";
     update();
   }
 
   void getAllDesignation() async {
     designationList.clear();
+    designationDataList.clear();
     HomeRepo().getDesignation().then((value) {
       switch (value!.statusCode) {
         case 200:
@@ -84,7 +89,7 @@ class DesignationController extends GetxController {
 
     HomeRepo()
         .addDesignation(
-            title.text, exp.text, des.text, location.text, skills.text)
+            title.text, exp.text, des.text, location.text, skills.text,id)
         .then((value) {
       print(value);
       Loaders.hideLoading();
@@ -114,6 +119,9 @@ class DesignationController extends GetxController {
   }
 
   searc(String query) async {
+    if(designationList.isEmpty){
+      return;
+    }
     if (query.isNotEmpty) {
       designationDataList = designationList.first.data!
           .where((elem) => elem.jobTitle!.toLowerCase().contains(query))

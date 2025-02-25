@@ -200,7 +200,7 @@ class AddBlog extends StatelessWidget {
                             ),
                             buildFilePicker(context, () {
                               _controller.getImage(ImageSource.gallery, 1);
-                            }, _controller.images1),
+                            }, _controller.images1, _controller.profileUrl1),
                             SizedBox(
                               height: 20,
                             ),
@@ -217,7 +217,7 @@ class AddBlog extends StatelessWidget {
                             ),
                             buildFilePicker(context, () {
                               _controller.getImage(ImageSource.gallery, 2);
-                            }, _controller.images2),
+                            }, _controller.images1, _controller.profileUrl2),
                             SizedBox(
                               height: 20,
                             ),
@@ -234,7 +234,7 @@ class AddBlog extends StatelessWidget {
                             ),
                             buildFilePicker(context, () {
                               _controller.getImage(ImageSource.gallery, 3);
-                            }, _controller.images3),
+                            }, _controller.images3, _controller.profileUrl3),
                             SizedBox(
                               height: 25,
                             ),
@@ -279,8 +279,8 @@ class AddBlog extends StatelessWidget {
     });
   }
 
-  buildFilePicker(context, ontap, image) {
-    return image == null
+  buildFilePicker(context, ontap, image, profileurl) {
+    return image == null && profileurl == ""
         ? MouseRegion(
             cursor: SystemMouseCursors.click,
             child: GestureDetector(
@@ -320,17 +320,30 @@ class AddBlog extends StatelessWidget {
           )
         : Stack(
             children: [
-              Container(
-                height: 120,
-                child: Image.memory(
-                  image,
-                  fit: BoxFit.contain,
+              if (profileurl == "")
+                Center(
+                  child: Container(
+                    height: 120,
+                    child: Image.memory(
+                      image,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                )
+              else
+                Center(
+                  child: Container(
+                    height: 120,
+                    child: Image.network(
+                      profileurl,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
                 ),
-              ),
               Align(
                 alignment: Alignment.bottomRight,
                 child: InkWell(
-                  onTap: () {},
+                  onTap: ontap,
                   child: Container(
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
@@ -339,7 +352,7 @@ class AddBlog extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(6),
                         child: Icon(
-                          Icons.delete,
+                          Icons.edit,
                           size: 20,
                           color: Colors.red,
                         ),

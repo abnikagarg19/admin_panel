@@ -4,6 +4,7 @@ import 'package:archlelabsadmin/screens/blogs.dart/add_blogs.dart';
 import 'package:archlelabsadmin/screens/blogs.dart/blogs.dart';
 import 'package:archlelabsadmin/services/auth_repo.dart';
 import 'package:archlelabsadmin/utils/loaders.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -25,11 +26,16 @@ class BlogController extends GetxController {
   List<BlogModel> blogsList = [];
   List<Items> blogsListItems = [];
   String id = "";
+  String profileUrl1 = "";
+  String profileUrl2 = "";
+  String profileUrl3 = "";
   @override
   void onInit() {
     super.onInit();
 
-    print("dhn");
+    if (kDebugMode) {
+      print("Blog Controller");
+    }
     getAllBlogs();
   }
 
@@ -39,7 +45,13 @@ class BlogController extends GetxController {
     body3.text = item.body3.toString();
     title.text = item.title.toString();
     id = item.id.toString();
-    subtitle.text = item.subTitle.toString();
+    profileUrl1 = item.images![0].toString();
+
+    profileUrl2 = item.images![1].toString();
+
+    profileUrl3 = item.images![2].toString();
+
+    subtitle.text = item.subTitle![0].toString();
     Get.to(AddBlog());
   }
 
@@ -49,6 +61,10 @@ class BlogController extends GetxController {
     body3.clear();
     title.clear();
     id = "";
+    profileUrl1 = "";
+    profileUrl2 = "";
+    profileUrl3 = "";
+
     subtitle.clear();
     update();
   }
@@ -130,7 +146,7 @@ class BlogController extends GetxController {
     List<String> imageNames = ["ss.png"];
     HomeRepo()
         .createBlog([subtitle.text], title.text, body1.text, body2.text,
-            body3.text, [files[0]], imageNames)
+            body3.text, [files[0],files[1],files[2]], imageNames,id)
         .then((value) {
       print(value);
       Loaders.hideLoading();

@@ -13,7 +13,7 @@ class Loaders {
       SnackBar(
         width: 500,
         elevation: 0,
-        behavior: SnackBarBehavior.fixed,
+        behavior: SnackBarBehavior.floating,
         duration: const Duration(seconds: 1),
         backgroundColor: Colors.transparent,
         content: Container(
@@ -21,7 +21,7 @@ class Loaders {
           margin: const EdgeInsets.symmetric(horizontal: 30),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
-            color:  AppTheme.textBlackColor.withOpacity(0.5),
+            color:  AppTheme.textBlackColor.withOpacity(0.8),
           ),
           child: Center(child: Text(message, style: Theme.of(Get.context!).textTheme.labelLarge)),
         ),

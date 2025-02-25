@@ -162,7 +162,7 @@ class AddTeam extends StatelessWidget {
                         ),
                         buildFilePicker(context, () {
                           _controller.getImage(ImageSource.gallery);
-                        }, _controller.images1),
+                        }, _controller.images1, _controller.profileUrl),
                         SizedBox(
                           height: 20,
                         ),
@@ -194,8 +194,8 @@ class AddTeam extends StatelessWidget {
       );
     });
   }
-  buildFilePicker(context, ontap, image) {
-    return image == null
+  buildFilePicker(context, ontap, image, profileurl) {
+    return image == null && profileurl==""
         ? MouseRegion(
             cursor: SystemMouseCursors.click,
             child: GestureDetector(
@@ -235,6 +235,7 @@ class AddTeam extends StatelessWidget {
           )
         : Stack(
             children: [
+              if(profileurl=="")
               Center(
                 child: Container(
                   height: 120,
@@ -243,11 +244,21 @@ class AddTeam extends StatelessWidget {
                     fit: BoxFit.contain,
                   ),
                 ),
+              )
+              else
+               Center(
+                child: Container(
+                  height: 120,
+                  child: Image.network(
+                    profileurl,
+                    fit: BoxFit.contain,
+                  ),
+                ),
               ),
               Align(
                 alignment: Alignment.bottomRight,
                 child: InkWell(
-                  onTap: () {},
+                  onTap: ontap,
                   child: Container(
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
@@ -256,7 +267,7 @@ class AddTeam extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(6),
                         child: Icon(
-                          Icons.delete,
+                          Icons.edit,
                           size: 20,
                           color: Colors.red,
                         ),

@@ -27,6 +27,7 @@ class TeamController extends GetxController {
   List<TeamModel> teamList = [];
   List<Data> teamDataList = [];
   String id = "";
+    String profileUrl = "";
   @override
   void onInit() {
     super.onInit();
@@ -36,21 +37,27 @@ class TeamController extends GetxController {
   }
 
   editTeam(Data item) {
+
     name.text = item.name.toString();
     des.text = item.description.toString();
+        role.text = item.role.toString();
+
     experience.text = item.experience.toString();
     linkedin.text = item.linkedin.toString();
     id = item.id.toString();
     skills.text = item.skills.toString();
+    profileUrl=item.profileUrl.toString();
     Get.to(AddTeam());
   }
 
   clearTeam() {
     name.clear();
     des.clear();
+    role.clear();
     experience.clear();
     linkedin.clear();
     id = "";
+    profileUrl="";
     skills.clear();
     update();
   }
@@ -95,6 +102,7 @@ class TeamController extends GetxController {
         image.path,
       );
       images1 = await image.readAsBytes();
+      profileUrl="";
       update();
       // setState(() {
     } on PlatformException catch (e) {
@@ -107,7 +115,7 @@ class TeamController extends GetxController {
 
     HomeRepo()
         .createTeam(name.text, des.text, role.text, experience.text,
-            linkedin.text, skills.text, images1)
+            linkedin.text, skills.text, images1,id)
         .then((value) {
       print(value.statusCode);
       Loaders.hideLoading();
@@ -136,6 +144,9 @@ class TeamController extends GetxController {
   }
 
   searchTeam(String query) async {
+    if(teamList.isEmpty){
+      return;
+    }
     if (query.isNotEmpty) {
       teamDataList = teamList.first.data!
           .where((elem) => elem.name!.toLowerCase().contains(query))

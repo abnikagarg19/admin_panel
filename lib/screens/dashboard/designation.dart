@@ -1,23 +1,16 @@
-import 'package:archlelabsadmin/controllers/BlogController.dart';
 import 'package:archlelabsadmin/controllers/designationController.dart';
 import 'package:archlelabsadmin/models/DesignationModel.dart';
 import 'package:archlelabsadmin/responsive/layouts.dart';
 import 'package:archlelabsadmin/screens/main/components/site_template.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../constants.dart';
-
 import '../../routes/app_routes.dart';
 import '../../theme/app_theme.dart';
-import '../../utils/constants.dart';
 import '../../utils/dailogs.dart';
-
 import '../../utils/paginated_table.dart';
-import '../../utils/text_feilds.dart';
 
 class DesignationPage extends StatelessWidget {
   const DesignationPage({super.key});
@@ -47,6 +40,7 @@ class DesignationPage extends StatelessWidget {
                         InkWell(
                           borderRadius: BorderRadius.circular(8),
                           onTap: () {
+                            _controller.clearDesignation();
                             Get.toNamed(Routes.addDesignation);
                           },
                           child: Container(

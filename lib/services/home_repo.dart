@@ -8,17 +8,21 @@ import 'package:http_parser/http_parser.dart';
 
 class HomeRepo {
   Future<dynamic> createBlog(
-    List sub_title,
-    String title,
-    String body1,
-    String body2,
-    String body3,
-    imageBytesList, // List of image bytes
-    List<String> imageNames,
-  ) async {
-    var uri = Uri.parse(AppUrls.BASE_URL +
-        AppUrls.createBlogs +
-        "?title=$title&body1=$body1&body2=$body2&body3=$body3");
+      List sub_title,
+      String title,
+      String body1,
+      String body2,
+      String body3,
+      imageBytesList, // List of image bytes
+      List<String> imageNames,
+      id) async {
+    var uri = id == ""
+        ? Uri.parse(AppUrls.BASE_URL +
+            AppUrls.createBlogs +
+            "?title=$title&body1=$body1&body2=$body2&body3=$body3")
+        : Uri.parse(AppUrls.BASE_URL +
+            AppUrls.createBlogs +
+            "?title=$title&body1=$body1&body2=$body2&body3=$body3&blog_id$id");
     var request = http.MultipartRequest('POST', uri);
 
     // Add multiple sub_title fields
@@ -45,20 +49,27 @@ class HomeRepo {
   }
 
   Future<dynamic> createTeam(String name, String des, String role, String exp,
-      String linkedin, String skills, image) async {
-    var uri = Uri.parse(AppUrls.BASE_URL +
-        AppUrls.createTeam +
-        "?name=$name&description=$des&role=$role&experience=$exp&skills=$skills&linkedin=$linkedin");
+      String linkedin, String skills, image, id) async {
+    var uri = id == ""
+        ? Uri.parse(AppUrls.BASE_URL +
+            AppUrls.createTeam +
+            "?name=$name&description=$des&role=$role&experience=$exp&skills=$skills&linkedin=$linkedin")
+        : Uri.parse(AppUrls.BASE_URL +
+            AppUrls.createTeam +
+            "?name=$name&description=$des&role=$role&experience=$exp&skills=$skills&linkedin=$linkedin&team_id=$id");
     var request = http.MultipartRequest('POST', uri);
 
-    var multipartFile = http.MultipartFile.fromBytes(
-      'filedata', // This should match the parameter name in your FastAPI endpoint
-      image,
-      filename: name.trim(),
-      contentType: MediaType('application', 'octet-stream'),
-    );
-    request.files.add(multipartFile);
-    return await THttpHelper().postMultipart(AppUrls.createBlogs, request);
+    if (image != null) {
+      var multipartFile = http.MultipartFile.fromBytes(
+        'filedata', // This should match the parameter name in your FastAPI endpoint
+        image,
+        filename: name.trim() + ".png",
+        contentType: MediaType('application', 'octet-stream'),
+      );
+      request.files.add(multipartFile);
+    }
+
+    return await THttpHelper().postMultipart(AppUrls.createTeam, request);
   }
 
   Future<dynamic> getTeams() async {
@@ -97,7 +108,7 @@ class HomeRepo {
     return await THttpHelper().get(AppUrls.getDesignation);
   }
 
-  Future<dynamic> addDesignation(title, exp, des, location, skills) async {
+  Future<dynamic> addDesignation(title, exp, des, location, skills, id) async {
     var map = Map<String, dynamic>();
     var data = {
       "job_title": title,
@@ -108,7 +119,10 @@ class HomeRepo {
       "date": "2025-02-19T16:20:19.849Z",
       "notes": "$des"
     };
-    return await THttpHelper().post(AppUrls.createDesignation, data);
+    return await id == ""
+        ? THttpHelper().post(AppUrls.createDesignation, data)
+        : THttpHelper()
+            .post(AppUrls.createDesignation + "?career_id=$id", data);
   }
 
   Future<dynamic> deleteTeam(team_id) async {
@@ -116,11 +130,14 @@ class HomeRepo {
 
     return await THttpHelper().delete(AppUrls.deleteTeam + "?team_id=$team_id");
   }
-Future<dynamic> deleteDesignation(id) async {
+
+  Future<dynamic> deleteDesignation(id) async {
     var map = Map<String, dynamic>();
 
-    return await THttpHelper().delete(AppUrls.deleteDesignation + "?career_id=$id");
+    return await THttpHelper()
+        .delete(AppUrls.deleteDesignation + "?career_id=$id");
   }
+
   Future<dynamic> deleteBlog(blogId) async {
     var map = Map<String, dynamic>();
 
