@@ -2,7 +2,7 @@ import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 import 'package:archlelabsadmin/utils/app_urls.dart';
 import 'package:get/get.dart';
-import 'package:dio/Dio.dart' as dio;
+// import 'package:dio/Dio.dart' as dio;
 import '../client/http_client.dart';
 import 'package:http_parser/http_parser.dart';
 
