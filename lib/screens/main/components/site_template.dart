@@ -14,8 +14,7 @@ class SiteTemplate extends StatelessWidget {
   final Widget? body;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-//key: Get.find<MenuAppController>().scaffoldKey,
+    return Scaffold(key: Get.find<MenuAppController>().scaffoldKey,
       endDrawer: SideMenu(),
       body: Row(
         crossAxisAlignment: CrossAxisAlignment.start,

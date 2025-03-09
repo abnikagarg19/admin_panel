@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 
 import 'bindings.dart/intial_bindings.dart';
 import 'constants.dart';
@@ -16,6 +17,7 @@ import 'theme/app_theme.dart';
 void main() async {
   //calling DependencyInjection init method
   WidgetsFlutterBinding.ensureInitialized();
+  usePathUrlStrategy();
 
   DependencyInjection.init();
   await Future.delayed(const Duration(milliseconds: 400));

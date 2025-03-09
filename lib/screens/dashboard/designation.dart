@@ -13,7 +13,7 @@ import '../../utils/dailogs.dart';
 import '../../utils/paginated_table.dart';
 
 class DesignationPage extends StatelessWidget {
-  const DesignationPage({super.key});
+   DesignationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +21,7 @@ class DesignationPage extends StatelessWidget {
       body: buildWidget(context),
     );
   }
+  final _controller = Get.put<DesignationController>(DesignationController());
 
   Widget buildWidget(context) {
     return Expanded(

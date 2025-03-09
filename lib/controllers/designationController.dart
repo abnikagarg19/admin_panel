@@ -34,13 +34,14 @@ class DesignationController extends GetxController {
   @override
   void onInit() {
     super.onInit();
- 
+
     offers.add({
       "title": TextEditingController(),
       "description": TextEditingController(),
     });
     qualifications.add(TextEditingController());
-    responsibilities.add(TextEditingController());   skills.add({
+    responsibilities.add(TextEditingController());
+    skills.add({
       "title": TextEditingController(),
       "description": TextEditingController(),
     });
@@ -67,12 +68,20 @@ class DesignationController extends GetxController {
   editDesignation(Data item) {
     title.text = item.jobTitle.toString();
     des.text = item.notes.toString();
+        jobType.text = item.jobtype.toString();
+
     exp.text = item.experience.toString();
-   skills = item.skills!.map((skill) {
+    skills = item.skills!.map((skill) {
       return {
         "title": TextEditingController(text: skill.title),
         "description": TextEditingController(text: skill.description),
       };
+    }).toList();
+    qualifications = item.qualification!.map((qualification) {
+      return TextEditingController(text: qualification);
+    }).toList();
+     responsibilities = item.keyresponsibilty!.map((responsibilities) {
+      return TextEditingController(text: responsibilities);
     }).toList();
     offers = item.offer!.map((offers) {
       return {
@@ -80,7 +89,7 @@ class DesignationController extends GetxController {
         "description": TextEditingController(text: offers.description),
       };
     }).toList();
-  qualifications.add(TextEditingController(text:item.qualification.toString()));
+  
     location.text = item.location.toString();
 
     id = item.id.toString();
@@ -91,7 +100,20 @@ class DesignationController extends GetxController {
     title.clear();
     des.clear();
     exp.clear();
- 
+skills.clear();
+jobType.clear();
+qualifications.clear();
+responsibilities.clear();
+offers.clear(); offers.add({
+      "title": TextEditingController(),
+      "description": TextEditingController(),
+    });
+    qualifications.add(TextEditingController());
+    responsibilities.add(TextEditingController());
+    skills.add({
+      "title": TextEditingController(),
+      "description": TextEditingController(),
+    });
     location.clear();
     id = "";
     update();
@@ -192,7 +214,8 @@ class DesignationController extends GetxController {
             skillsData,
             offersData,
             responsibilitiesData,
-            qualificationsData,jobType.text,
+            qualificationsData,
+            jobType.text,
             id)
         .then((value) {
       print(value);
