@@ -148,18 +148,17 @@ class DesignationPage extends StatelessWidget {
                           //     topRight: Radius.circular(4),
                           //   ),
                           // ),
-                          dataRowHeight: 56,
+                          dataRowHeight: 100,
 
                           columns: [
                             DataColumn2(
                                 label: Text('Action'),
                                 size: ColumnSize.S,
                                 fixedWidth: 80),
-                           
                             DataColumn2(
-                              label: Text('Job Title'),  size: ColumnSize.L,
+                              label: Text('Job Title'),
+                              size: ColumnSize.L,
                             ),
-                         
                             DataColumn2(
                               label: Text('Experience'),
                               size: ColumnSize.L,
@@ -169,7 +168,15 @@ class DesignationPage extends StatelessWidget {
                               size: ColumnSize.L,
                             ),
                             DataColumn2(
-                              label: Text('Mode'),
+                              label: Text('Offer'),
+                              size: ColumnSize.L,
+                            ),
+                            DataColumn2(
+                              label: Text('Qualification'),
+                              size: ColumnSize.L,
+                            ),
+                            DataColumn2(
+                              label: Text('Responsibilties'),
                               size: ColumnSize.L,
                             ),
                             DataColumn2(
@@ -231,7 +238,7 @@ class MyDataSource extends DataTableSource {
             ),
             GestureDetector(
               onTap: () {
-               Get.find<DesignationController>().editDesignation(row);
+                Get.find<DesignationController>().editDesignation(row);
               },
               child: Icon(
                 Icons.edit,
@@ -240,7 +247,6 @@ class MyDataSource extends DataTableSource {
             )
           ],
         )),
-       
         DataCell(
           Text(
             row.jobTitle ?? '',
@@ -248,7 +254,6 @@ class MyDataSource extends DataTableSource {
             maxLines: 100,
           ),
         ),
-      
         DataCell(SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Padding(
@@ -264,10 +269,22 @@ class MyDataSource extends DataTableSource {
           scrollDirection: Axis.vertical,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(
-              row.skills ?? '',
-              overflow: TextOverflow.ellipsis,
-              maxLines: 100,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: row.skills != null && row.skills!.isNotEmpty
+                  ? row.skills!.map<Widget>((skill) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: Text(
+                          "${skill.title}: ${skill.description}",
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 4,
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w500),
+                        ),
+                      );
+                    }).toList()
+                  : [Text("No skills listed")],
             ),
           ),
         )),
@@ -275,10 +292,68 @@ class MyDataSource extends DataTableSource {
           scrollDirection: Axis.vertical,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(
-              row.mode ?? '',
-              overflow: TextOverflow.ellipsis,
-              maxLines: 100,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: row.offer != null && row.offer!.isNotEmpty
+                  ? row.offer!.map<Widget>((offer) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: Text(
+                          "${offer.title}: ${offer.description}",
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 4,
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w500),
+                        ),
+                      );
+                    }).toList()
+                  : [Text("No Offer listed")],
+            ),
+          ),
+        )),
+        DataCell(SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: row.qualification != null && row.qualification!.isNotEmpty
+                  ? row.qualification!.map<Widget>((qualification) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: Text(
+                          "${qualification}",
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 4,
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w500),
+                        ),
+                      );
+                    }).toList()
+                  : [Text("No qualification listed")],
+            ),
+          ),
+        )),
+        DataCell(SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: row.keyresponsibilty != null && row.keyresponsibilty!.isNotEmpty
+                  ? row.keyresponsibilty!.map<Widget>((keyresponsibilty) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: Text(
+                          "${keyresponsibilty}",
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 4,
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w500),
+                        ),
+                      );
+                    }).toList()
+                  : [Text("No keyresponsibilty listed")],
             ),
           ),
         )),

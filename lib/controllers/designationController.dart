@@ -20,26 +20,67 @@ class DesignationController extends GetxController {
   final title = TextEditingController();
   final mode = TextEditingController();
   final exp = TextEditingController();
-  final skills = TextEditingController();
+  final jobType = TextEditingController();
   final location = TextEditingController();
   final des = TextEditingController();
   bool isLoaded = false;
   List<DesignationModel> designationList = [];
   List<Data> designationDataList = [];
+  List<TextEditingController> responsibilities = [];
+  List<TextEditingController> qualifications = [];
+  List<Map<String, TextEditingController>> offers = [];
+
   String id = "";
   @override
   void onInit() {
     super.onInit();
+ 
+    offers.add({
+      "title": TextEditingController(),
+      "description": TextEditingController(),
+    });
+    qualifications.add(TextEditingController());
+    responsibilities.add(TextEditingController());   skills.add({
+      "title": TextEditingController(),
+      "description": TextEditingController(),
+    });
+    update();
 
     print("dhn");
     getAllDesignation();
+  }
+
+  /// Add a new offer entry
+  void addOffer() {
+    offers.add({
+      "title": TextEditingController(),
+      "description": TextEditingController(),
+    });
+    update();
+  }
+
+  void removeOffer(int index) {
+    offers.removeAt(index);
+    update();
   }
 
   editDesignation(Data item) {
     title.text = item.jobTitle.toString();
     des.text = item.notes.toString();
     exp.text = item.experience.toString();
-    skills.text = item.skills.toString();
+   skills = item.skills!.map((skill) {
+      return {
+        "title": TextEditingController(text: skill.title),
+        "description": TextEditingController(text: skill.description),
+      };
+    }).toList();
+    offers = item.offer!.map((offers) {
+      return {
+        "title": TextEditingController(text: offers.title),
+        "description": TextEditingController(text: offers.description),
+      };
+    }).toList();
+  qualifications.add(TextEditingController(text:item.qualification.toString()));
     location.text = item.location.toString();
 
     id = item.id.toString();
@@ -50,9 +91,44 @@ class DesignationController extends GetxController {
     title.clear();
     des.clear();
     exp.clear();
-    skills.clear();
+ 
     location.clear();
     id = "";
+    update();
+  }
+
+  List<Map<String, TextEditingController>> skills = [];
+
+  void addSkill() {
+    skills.add({
+      "title": TextEditingController(),
+      "description": TextEditingController(),
+    });
+    update();
+  }
+
+  void removeSkill(int index) {
+    skills.removeAt(index);
+    update();
+  }
+
+  void addResponsibility() {
+    responsibilities.add(TextEditingController());
+    update();
+  }
+
+  void removeResponsibility(int index) {
+    responsibilities.removeAt(index);
+    update();
+  }
+
+  void addQualification() {
+    qualifications.add(TextEditingController());
+    update();
+  }
+
+  void removeQualification(int index) {
+    qualifications.removeAt(index);
     update();
   }
 
@@ -86,10 +162,38 @@ class DesignationController extends GetxController {
 
   void submit() async {
     Loaders.showLoading('Loading...');
+    List<Map<String, String>> skillsData = skills.map((skill) {
+      return {
+        "title": skill["title"]!.text,
+        "description": skill["description"]!.text,
+      };
+    }).toList();
 
+    List<Map<String, String>> offersData = offers.map((offer) {
+      return {
+        "title": offer["title"]!.text,
+        "description": offer["description"]!.text,
+      };
+    }).toList();
+
+    List<String> responsibilitiesData =
+        responsibilities.map((res) => res.text).toList();
+
+    List<String> qualificationsData =
+        qualifications.map((qual) => qual.text).toList();
+
+    // Submit the data
     HomeRepo()
         .addDesignation(
-            title.text, exp.text, des.text, location.text, skills.text,id)
+            title.text,
+            exp.text,
+            des.text,
+            location.text,
+            skillsData,
+            offersData,
+            responsibilitiesData,
+            qualificationsData,jobType.text,
+            id)
         .then((value) {
       print(value);
       Loaders.hideLoading();
@@ -119,7 +223,7 @@ class DesignationController extends GetxController {
   }
 
   searc(String query) async {
-    if(designationList.isEmpty){
+    if (designationList.isEmpty) {
       return;
     }
     if (query.isNotEmpty) {

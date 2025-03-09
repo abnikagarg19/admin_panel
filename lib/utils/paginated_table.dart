@@ -90,6 +90,7 @@ class TPaginatedDataTable extends StatelessWidget {
           minWidth: minWidth,
           dividerThickness: 0,
           horizontalMargin: 12,
+          
           rowsPerPage: rowsPerPage,
           showFirstLastButtons: true,
           showCheckboxColumn: true,

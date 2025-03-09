@@ -217,7 +217,7 @@ class AddBlog extends StatelessWidget {
                             ),
                             buildFilePicker(context, () {
                               _controller.getImage(ImageSource.gallery, 2);
-                            }, _controller.images1, _controller.profileUrl2),
+                            }, _controller.images2, _controller.profileUrl2),
                             SizedBox(
                               height: 20,
                             ),

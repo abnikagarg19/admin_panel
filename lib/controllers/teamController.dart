@@ -95,6 +95,7 @@ class TeamController extends GetxController {
     try {
       final XFile? image = await ImagePicker().pickImage(
         source: img,
+        imageQuality: 100
       );
       if (image == null) return;
 

@@ -63,7 +63,8 @@ class HomeRepo {
       var multipartFile = http.MultipartFile.fromBytes(
         'filedata', // This should match the parameter name in your FastAPI endpoint
         image,
-        filename: name.trim() + ".png",
+
+        filename: "aa" + name.trim() + ".jpg",
         contentType: MediaType('application', 'octet-stream'),
       );
       request.files.add(multipartFile);
@@ -108,16 +109,22 @@ class HomeRepo {
     return await THttpHelper().get(AppUrls.getDesignation);
   }
 
-  Future<dynamic> addDesignation(title, exp, des, location, skills, id) async {
+  Future<dynamic> addDesignation(title, exp, des, location, skillsData,
+      offersData, responsibilitiesData, qualificationsData, jobtype, id) async {
     var map = Map<String, dynamic>();
     var data = {
       "job_title": title,
       "mode": "Online",
       "experience": "$exp",
-      "skills": "$skills",
+      "skills": skillsData,
       "location": "$location",
-      "date": "2025-02-19T16:20:19.849Z",
-      "notes": "$des"
+      "date": "${DateTime.now()}",
+      "notes": "$des",
+      "description": "$des",
+      "qualification": qualificationsData,
+      "keyresponsibilty": responsibilitiesData,
+      "offer": offersData,
+      "jobtype": jobtype
     };
     return await id == ""
         ? THttpHelper().post(AppUrls.createDesignation, data)

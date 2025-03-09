@@ -32,60 +32,136 @@ class DesignationModel {
 
 class Data {
   Data({
-      this.mode, 
       this.skills, 
-      this.id, 
-      this.jobTitle, 
-      this.date, 
-      this.createdAt, 
-      this.deletedAt, 
+      this.mode, 
       this.experience, 
+      this.date, 
+      this.description, 
+      this.keyresponsibilty, 
+      this.offer, 
+      this.jobtype, 
+      this.updatedAt, 
+      this.isDeleted, 
+      this.jobTitle, 
+      this.id, 
       this.location, 
       this.notes, 
-      this.updatedAt, 
-      this.isDeleted,});
+      this.qualification, 
+      this.createdAt, 
+      this.deletedAt,});
 
   Data.fromJson(dynamic json) {
+    if (json['skills'] != null) {
+      skills = [];
+      json['skills'].forEach((v) {
+        skills?.add(Skills.fromJson(v));
+      });
+    }
     mode = json['mode'];
-    skills = json['skills'];
-    id = json['id'];
-    jobTitle = json['job_title'];
-    date = json['date'];
-    createdAt = json['created_at'];
-    deletedAt = json['deleted_at'];
     experience = json['experience'];
-    location = json['location'];
-    notes = json['notes'];
+    date = json['date'];
+    description = json['description'];
+    keyresponsibilty = json['keyresponsibilty'] != null ? json['keyresponsibilty'].cast<String>() : [];
+    if (json['offer'] != null) {
+      offer = [];
+      json['offer'].forEach((v) {
+        offer?.add(Offer.fromJson(v));
+      });
+    }
+    jobtype = json['jobtype'];
     updatedAt = json['updated_at'];
     isDeleted = json['is_deleted'];
+    jobTitle = json['job_title'];
+    id = json['id'];
+    location = json['location'];
+    notes = json['notes'];
+    qualification = json['qualification'] != null ? json['qualification'].cast<String>() : [];
+    createdAt = json['created_at'];
+    deletedAt = json['deleted_at'];
   }
+  List<Skills>? skills;
   String? mode;
-  String? skills;
-  int? id;
-  String? jobTitle;
-  String? date;
-  String? createdAt;
-  dynamic deletedAt;
   String? experience;
-  String? location;
-  String? notes;
+  String? date;
+  String? description;
+  List<String>? keyresponsibilty;
+  List<Offer>? offer;
+  String? jobtype;
   String? updatedAt;
   bool? isDeleted;
+  String? jobTitle;
+  int? id;
+  String? location;
+  String? notes;
+  List<String>? qualification;
+  String? createdAt;
+  dynamic deletedAt;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
+    if (skills != null) {
+      map['skills'] = skills?.map((v) => v.toJson()).toList();
+    }
     map['mode'] = mode;
-    map['skills'] = skills;
-    map['id'] = id;
-    map['job_title'] = jobTitle;
-    map['date'] = date;
-    map['created_at'] = createdAt;
-    map['deleted_at'] = deletedAt;
     map['experience'] = experience;
-    map['location'] = location;
-    map['notes'] = notes;
+    map['date'] = date;
+    map['description'] = description;
+    map['keyresponsibilty'] = keyresponsibilty;
+    if (offer != null) {
+      map['offer'] = offer?.map((v) => v.toJson()).toList();
+    }
+    map['jobtype'] = jobtype;
     map['updated_at'] = updatedAt;
     map['is_deleted'] = isDeleted;
+    map['job_title'] = jobTitle;
+    map['id'] = id;
+    map['location'] = location;
+    map['notes'] = notes;
+    map['qualification'] = qualification;
+    map['created_at'] = createdAt;
+    map['deleted_at'] = deletedAt;
+    return map;
+  }
+
+}
+
+class Offer {
+  Offer({
+      this.title, 
+      this.description,});
+
+  Offer.fromJson(dynamic json) {
+    title = json['title'];
+    description = json['description'];
+  }
+  String? title;
+  String? description;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['title'] = title;
+    map['description'] = description;
+    return map;
+  }
+
+}
+
+class Skills {
+  Skills({
+      this.title, 
+      this.description,});
+
+  Skills.fromJson(dynamic json) {
+    title = json['title'];
+    description = json['description'];
+  }
+  String? title;
+  String? description;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['title'] = title;
+    map['description'] = description;
     return map;
   }
 
