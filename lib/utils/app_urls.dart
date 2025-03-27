@@ -1,7 +1,7 @@
 class AppUrls {
   static const String APP_NAME = 'Archle Labs';
   static const double APP_VERSION = 1.0;
-  static const String BASE_URL = "https://d2j0jm139ack2u.cloudfront.net";
+  static const String BASE_URL = "https://d16io5ctr3dw8u.cloudfront.net"; 
   static const String login = "/api/v1/user/login/";
   static const String getBlogs = "/api/v1/blogs/get_all_blog/";
   static const String createBlogs = "/api/v1/blogs/create_blog/";
